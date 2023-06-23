@@ -25,7 +25,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className= {`${lexend.variable} ${inter.className}`}>
+
+      <body className= {`${lexend.variable} ${inter.className}
+        flex-col
+        h-auto
+        justify-center
+        overflow-x-hidden
+        scrollbar-thin 
+       scrollbar-thumb-brand-3/90 
+       scrollbar-track-grey-whiteFixed`
+      }>
         <AnimationComponent/>
         {children}
       </body>
