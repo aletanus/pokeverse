@@ -1,5 +1,7 @@
 import "./globals.css";
 import { Inter, Lexend } from "next/font/google";
+import AnimationComponent from "../components/Animation";
+
 const lexend = Lexend({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -24,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className= {`${lexend.variable} ${inter.className}`}>
+        <AnimationComponent/>
         {children}
       </body>
     </html>
