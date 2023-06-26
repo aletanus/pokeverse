@@ -17,7 +17,7 @@ export default function SectionB() {
   });
 
   async function submitForm(data: SearchPokemon) {
-    await getPokemon(data.search);
+    await getPokemon(data.search.toLocaleLowerCase());
   }
 
   // const searchValue: string = watch("search");
