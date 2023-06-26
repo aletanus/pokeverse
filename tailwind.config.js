@@ -17,6 +17,11 @@ module.exports = {
         1500: "1500px",
       },
       screens: {
+        320: { max: "320px" },
+        321: { min: "321px" },
+        350: { min: "350px" },
+        370: { min: "370px" },
+        405: { min: "405px" },
         559: { max: "559px" },
         560: "560px",
       },
@@ -42,6 +47,7 @@ module.exports = {
           3: "#B0A6F0",
           4: "#EDEAFD",
           5: "#CACAEF",
+          6: "#B7DBAE",
         },
         grey: {
           0: "#0B0D0D",
@@ -126,11 +132,35 @@ module.exports = {
           transform: "scale(1)",
         },
       },
+      "pulse-animation": {
+        "0%": {
+          transform: "scale(1)",
+        },
+        "50%": {
+          transform: "scale(1.08)",
+        },
+        "100%": {
+          transform: "scale(1)",
+        },
+      },
+      "pulse-card-animation": {
+        "0%": {
+          transform: "scale(1)",
+        },
+        "50%": {
+          transform: "scale(1.04)",
+        },
+        "100%": {
+          transform: "scale(1)",
+        },
+      },
     },
     animation: {
       "poke-ball": "poke-ball-animation 3s ease forwards",
       pikachu: "pikachu-animation 3.5s ease-out  forwards",
       change: "change-background 6.8s ease-out forwards",
+      pulse: "pulse-animation 1.5s infinite ease-in-out",
+      pulseCard: "pulse-card-animation 2.5s infinite ease-in-out",
     },
   },
   plugins: [require("tailwind-scrollbar")],
