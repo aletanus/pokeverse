@@ -15,8 +15,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "PokéVerse",
-  description: "O futuro Pokémon começa no PokéVerse",
+  title: "PokéVerso",
+  description: "O futuro Pokémon começa no PokéVerso",
 };
 
 export default function RootLayout({ children, }: { children: React.ReactNode }) {
