@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter, Lexend } from "next/font/google";
 import AnimationComponent from "../components/Animation";
+import { AppProvider } from "@/contexts/AppContext";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -18,11 +19,7 @@ export const metadata = {
   description: "O futuro Pokémon começa no PokéVerse",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
     <html lang="pt-br">
 
@@ -36,7 +33,9 @@ export default function RootLayout({
        scrollbar-track-grey-whiteFixed`
       }>
         <AnimationComponent/>
-        {children}
+        <AppProvider>
+          {children}
+        </AppProvider>
       </body>
     </html>
   );
