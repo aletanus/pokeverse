@@ -14,5 +14,4 @@ Este é um projeto [Next.js](https://nextjs.org/) criado com o [create-next-app]
 
 ![image](https://github.com/aletanus/pokeverse/assets/106698505/34d57c76-9e13-449e-934a-195534337cf5)
 
-![image](https://github.com/aletanus/pokeverse/assets/106698505/4a04c234-851b-4a78-9820-c4bc3c213662)
-
+![image](https://github.com/aletanus/pokeverse/assets/106698505/47a357f5-7699-4e2f-80dd-0daac072f067)
