@@ -8,9 +8,6 @@ export interface AppContextData {
   pokemonData: PokemonData | null
   setPokemonData: Dispatch<SetStateAction<PokemonData | null>>
   getPokemon(pokemon: string): Promise<void>
-  getAllPokemonTypes(): Promise<void>
-  getOneSpecificType(URL: string): Promise<void>
-
   getPokemonByType(type: string): void
   filteredPokemons: PokemonData[]
   setFilteredPokemons: Dispatch<SetStateAction<PokemonData[]>>
