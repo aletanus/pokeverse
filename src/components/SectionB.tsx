@@ -8,7 +8,6 @@ import CardsContainer from "./CardsContainer";
 import { useApp } from "@/contexts/AppContext";
 import { SearchPokemon } from "@/contexts/interfaces";
 import { FiSearch } from "react-icons/fi";
-// import { useEffect } from "react";
 
 export default function SectionB() {
   const { getPokemon, } = useApp();
@@ -20,22 +19,13 @@ export default function SectionB() {
     await getPokemon(data.search.toLocaleLowerCase());
   }
 
-  // const searchValue: string = watch("search");
-  // console.log(searchValue);
-
-  // useEffect(() => {
-  //   console.log(searchValue);
-  // }, [searchValue]);
-
   function getAllPokemon() {
     // console.log("Chamar todos Pokémon");
-    // console.log(searchValue);
-    // getPokemon(searchValue);
   }
 
   return (
     <section
-      id="starSection"
+      id="searchSection"
       className="
       flex
       justify-center
@@ -45,8 +35,6 @@ export default function SectionB() {
       bg-brand-0
     "
     >
-
-
 
       <article
         className="
@@ -87,8 +75,6 @@ export default function SectionB() {
         </div>
 
       </article>
-
-
 
     </section>
   );
