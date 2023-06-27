@@ -12,4 +12,5 @@ yarn dev
 
 Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
 
-![image](https://github.com/aletanus/pokeverse/assets/106698505/f941c69d-e4c8-4a23-8525-84c887814ab0)
+![image](https://github.com/aletanus/pokeverse/assets/106698505/4a04c234-851b-4a78-9820-c4bc3c213662)
+
