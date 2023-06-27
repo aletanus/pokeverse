@@ -9,7 +9,6 @@ export function AppProvider({ children, }: Props) {
   const [ pokemonData, setPokemonData ] = useState<PokemonData | null>(null);
   const [filteredPokemons, setFilteredPokemons] = useState<PokemonData[]>([]);
 
-
   // async function getAllPokemon() {
   //   axios.get<any>("https://pokeapi.co/api/v2/pokemon/?limit=100&offset=100")
   //     .then((response) => {

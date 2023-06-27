@@ -1,6 +1,7 @@
 "use client";
 import SectionA from "@/components/SectionA";
 import SectionB from "@/components/SectionB";
+import SectionC from "@/components/SectionC";
 
 export default function Home() {
 
@@ -10,7 +11,15 @@ export default function Home() {
 
       <SectionA/>
 
-      <div className="absolute top-[1340px] flex justify-center items-center w-full h-150 bg-brand-0 transform skew-y-angled">
+      <div
+        className="
+          absolute top-[1340px]
+          flex justify-center
+          items-center w-full
+          h-150 bg-brand-0
+          transform skew-y-angled
+          "
+      >
         <img
           className="max-h-[50%] max-w-[70%]"
           src="/images/Logo - PokeVerso.png"
@@ -18,6 +27,9 @@ export default function Home() {
         />
       </div>
 
+      <h2 className="absolute top-[1460px] 600:top-[1480px] 800:top-[1490px] 950:top-[1500px] 1200:hidden pl-5 transform skew-y-angled font-black text-2xl mt-16 text-brand-0">Nº de Pokémon por tipo:</h2>
+
+      <SectionC/>
       <SectionB/>
 
     </main>
