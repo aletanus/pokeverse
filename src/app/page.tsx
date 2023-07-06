@@ -1,4 +1,5 @@
 "use client";
+import Footer from "@/components/Footer";
 import SectionA from "@/components/SectionA";
 import SectionB from "@/components/SectionB";
 import SectionC from "@/components/SectionC";
@@ -31,7 +32,7 @@ export default function Home() {
 
       <SectionC/>
       <SectionB/>
-
+      <Footer/>
     </main>
 
   );
