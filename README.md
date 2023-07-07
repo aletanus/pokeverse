@@ -1,4 +1,4 @@
-# PokéVerso • [pokeverso.vercel.app/](https://pokeverso.vercel.app/)
+# PokéVerso • [pokeverso.vercel.app/](https://pokeverso.vercel.app)
 
 ## Primeiros passos
 

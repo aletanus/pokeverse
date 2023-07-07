@@ -1,23 +1,9 @@
 "use client";
-import { useForm } from "react-hook-form";
-import Input from "../components/Input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { searchSchema } from "../schema/search.schema";
 import Button from "@/components/Button";
 import CardsContainer from "./CardsContainer";
-import { useApp } from "@/contexts/AppContext";
-import { SearchPokemon } from "@/contexts/interfaces";
-import { FiSearch } from "react-icons/fi";
+import SearchForm from "./SearchForm";
 
 export default function SectionB() {
-  const { getPokemon, } = useApp();
-  const { register, handleSubmit, formState: { errors, },} = useForm<SearchPokemon>({
-    resolver: zodResolver(searchSchema),
-  });
-
-  async function submitForm(data: SearchPokemon) {
-    await getPokemon(data.search.toLocaleLowerCase());
-  }
 
   function getAllPokemon() {
     // console.log("Chamar todos Pokémon");
@@ -53,20 +39,7 @@ export default function SectionB() {
         <h1 className="font-black text-3xl mt-12 text-brand-0">PokéBusca</h1>
 
         <div className="flex h-[48px] w-[90%] justify-between mt-8">
-          <form onSubmit={handleSubmit(submitForm)} className="flex h-[48px] w-[90%] justify-between">
-            <div className="-m-1 w-full">
-              <Input
-                id="search"
-                type="text"
-                name="search"
-                label=""
-                placeholder="Nome ou Nº"
-                register={register("search")}
-                errors={errors.search}
-              />
-            </div>
-            <Button type="submit" style="search" details="" size="medium"><FiSearch/></Button>
-          </form>
+          <SearchForm/>
           <Button onClick={getAllPokemon} type="button" style="searchAll" details="" size="medium">TODOS</Button>
         </div>
 

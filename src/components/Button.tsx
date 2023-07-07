@@ -31,9 +31,9 @@ export default function Button(props: ButtonProps) {
     case "start":
       return "h-[55px] text-grey-whiteFixed bg-brand-0 border-brand-4 hover:bg-brand-3 hover:border-brand-4";
     case "searchAll":
-      return "flex rounded-[6px] text-grey-whiteFixed bg-brand-0 border-brand-4 font-medium";
+      return "flex rounded-[6px] text-grey-whiteFixed bg-brand-0 border-brand-0 font-medium";
     case "search":
-      return "flex rounded-[6px] text-grey-whiteFixed bg-brand-0 border-brand-4 font-medium";
+      return "flex rounded-t-[8px] rounded-b-[8px] rounded-tl-none rounded-l-none text-grey-whiteFixed bg-brand-0 border-brand-0 font-medium";
     }
   };
 

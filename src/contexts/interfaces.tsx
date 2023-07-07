@@ -1,16 +1,24 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
+export interface AppContextData {
+  pokemonNames: string[]
+  setPokemonNames: Dispatch<SetStateAction<string[]>>
+  getAllPokemonNames(url?: string): Promise<string[]>
+  pokemonData: PokemonData | null
+  setPokemonData: Dispatch<SetStateAction<PokemonData | null>>
+  getPokemonByNameOrId(pokemon: string): Promise<void>
+  getPokemonByType(type: string): void
+  filteredPokemons: PokemonData[]
+  setFilteredPokemons: Dispatch<SetStateAction<PokemonData[]>>
+}
+
 export interface Props {
   children: ReactNode;
 }
 
-export interface AppContextData {
-  pokemonData: PokemonData | null
-  setPokemonData: Dispatch<SetStateAction<PokemonData | null>>
-  getPokemon(pokemon: string): Promise<void>
-  getPokemonByType(type: string): void
-  filteredPokemons: PokemonData[]
-  setFilteredPokemons: Dispatch<SetStateAction<PokemonData[]>>
+export interface PokemonApiResponse {
+  results: Pokemon[];
+  next: string | null;
 }
 
 export interface ApiPokemonData {
@@ -198,7 +206,7 @@ interface PokemonEntry {
   slot: number;
 }
 
-interface Pokemon {
+export interface Pokemon {
   name: string;
   url: string;
 }
