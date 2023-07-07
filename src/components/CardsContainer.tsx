@@ -20,7 +20,7 @@ export default function CardsContainer() {
 
     <ul className="flex justify-center mt-2 bg-grey-8 w-full rounded-[16px] border-2 border-brand-0 p-8 ">
       { pokemonData ? (
-        <li className="shadow-lg flex flex-col justify-between min-w-[200px] max-w-xs min-h-[300px] bg-grey-8 rounded-[12px] border-2  p-4 hover:bg-lime-50 hover:border-violet-200 animate-pulseCard">
+        <li className="shadow-lg flex flex-col justify-between min-w-[200px] max-w-xs min-h-[300px] bg-grey-8 rounded-[12px] border-2  p-4 hover:bg-lime-50 hover:border-violet-200 animate-pulseCard hover:animate-pausedCard">
           <img className="flex justify-center w-fit bg-brand-6 rounded-[10px]" src={ pokemonArtwork } alt={ pokemonName }/>
           <div>
             <div className="flex justify-between rounded-[4px] p-2">

@@ -1,15 +1,38 @@
 "use client";
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
-import { ApiPokemonData, ApiPokemonTypeDetails, ApiPokemonTypeList, AppContextData, PokemonData, Props } from "./interfaces";
+import { createContext, useContext, useEffect, useState } from "react";
+import { ApiPokemonData, ApiPokemonTypeDetails, ApiPokemonTypeList, AppContextData, Pokemon, PokemonApiResponse, PokemonData, Props } from "./interfaces";
 
 const AppContext = createContext({} as AppContextData);
 
 export function AppProvider({ children, }: Props) {
-  const [ pokemonData, setPokemonData ] = useState<PokemonData | null>(null);
+  const [pokemonNames, setPokemonNames] = useState<string[]>([]);
+  const [pokemonData, setPokemonData] = useState<PokemonData | null>(null);
   const [filteredPokemons, setFilteredPokemons] = useState<PokemonData[]>([]);
 
-  async function getPokemon(pokemon: string) {
+  useEffect(() => {
+    getAllPokemonNames();
+  }, []);
+
+  async function getAllPokemonNames(url = "https://pokeapi.co/api/v2/pokemon/", pokemonNames: string[] = []) {
+    await axios.get<PokemonApiResponse>(`${url}?limit=1000`)
+      .then((response) => {
+        const results = response.data.results;
+        const newPokemonNames = results.map((pokemon: Pokemon) => pokemon.name);
+        setPokemonNames(prevPokemonNames => [...prevPokemonNames, ...newPokemonNames].sort());
+        const nextUrl = response.data.next;
+        if (nextUrl) {
+          return getAllPokemonNames(nextUrl);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+    return pokemonNames;
+  }
+  // console.log(pokemonNames);
+
+  async function getPokemonByNameOrId(pokemon: string) {
     axios.get<ApiPokemonData>(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
       .then((response) => {
         const pokemonSelected = response.data;
@@ -22,8 +45,8 @@ export function AppProvider({ children, }: Props) {
         setPokemonData(filteredData);
       })
       .catch((error) => {
-        console.log(error.response.data);
         setPokemonData(null);
+        console.log(error.response.data);
       });
   }
 
@@ -59,9 +82,12 @@ export function AppProvider({ children, }: Props) {
   return (
     <AppContext.Provider
       value={{
+        getAllPokemonNames,
+        pokemonNames,
+        setPokemonNames,
         pokemonData,
         setPokemonData,
-        getPokemon,
+        getPokemonByNameOrId,
         getPokemonByType,
         filteredPokemons, setFilteredPokemons,
       }}
