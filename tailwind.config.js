@@ -196,6 +196,17 @@ module.exports = {
           transform: "scale(1)",
         },
       },
+      "paused-card-animation": {
+        "0%": {
+          transform: "scale(1.04)",
+        },
+        "50%": {
+          transform: "scale(1.04)",
+        },
+        "100%": {
+          transform: "scale(1.04)",
+        },
+      },
     },
     animation: {
       "poke-ball": "poke-ball-animation 3s ease forwards",
@@ -203,6 +214,7 @@ module.exports = {
       change: "change-background 6.8s ease-out forwards",
       pulse: "pulse-animation 1.5s infinite ease-in-out",
       pulseCard: "pulse-card-animation 2.5s infinite ease-in-out",
+      pausedCard: "paused-card-animation infinite ease-in-out",
     },
   },
   plugins: [require("tailwind-scrollbar")],
