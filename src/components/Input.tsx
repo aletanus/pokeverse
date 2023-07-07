@@ -25,7 +25,7 @@ const Input = forwardRef<HTMLSelectElement, InputProps>(({ id, type, name, label
   };
 
   const defaultStyle = "bg-grey-8 w-full px-4 py-2 text-grey-1 rounded-t-none rounded-b-none rounded-tl-[8px] rounded-l-[8px] border-2 border-brand-0 input-placeholder hover:border-brand-0 focus:border-brand-3 resize-none";
-  const selectStyle = "appearance-none pr-4 capitalize";
+  const selectStyle = "appearance-none pr-7 capitalize";
   const selectSvgClasses = `h-5 w-5 text-gray-500 mr-2 transition-transform duration-500 ease-in-out ${ isOpen ? "scale-y-[-1]" : "" }`;
 
   let inputElement: React.ReactNode;
