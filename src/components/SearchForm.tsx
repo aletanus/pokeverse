@@ -29,7 +29,7 @@ export default function SearchForm() {
     <form
       onSubmit={handleSubmit(submitForm)}
       onKeyDown={handleKeyDown}
-      className="flex h-[48px] w-[90%] justify-between mr-1"
+      className="flex h-[48px] w-[100%] justify-between mr-1"
     >
 
       <Input
@@ -40,7 +40,7 @@ export default function SearchForm() {
         register={register("search")}
         errors={errors.search}
       >
-        <option value="">Pokémon</option>
+        <option value="">POKÉMON</option>
         {pokemonNames.map((search) => (
           <option key={search} className="capitalize" value={search}>
             {search}
