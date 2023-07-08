@@ -25,11 +25,11 @@ export default function CardsContainer() {
           <div>
             <div className="flex justify-between rounded-[4px] p-2">
               <p className="font-semibold pr-[4px] text-brand-0">{ `nº ${ pokemonId }` }</p>
-              <button className="font-semibold bg-lime-400 text-gray-800 pl-2 pr-2 lg:pl-6 lg:pr-6 rounded-[4px]">{ pokemonTypeA ? capitalizeFirstLetter(pokemonTypeA) : "" }</button>
+              <button className="font-semibold h-8 bg-lime-400 text-gray-800 pl-2 pr-2 lg:pl-6 lg:pr-6 rounded-[4px]">{ pokemonTypeA ? capitalizeFirstLetter(pokemonTypeA) : "" }</button>
             </div>
             <div className="flex justify-between rounded-[4px] p-2">
               <p className="font-black pr-[4px] text-lg text-brand-0">{ pokemonName ? capitalizeFirstLetter(pokemonName) : "" }</p>
-              <button className={`font-semibold bg-red-400 text-gray-100 pl-2 pr-2 lg:pl-6 lg:pr-6 rounded-[4px] ${pokemonTypeB ? "" : "hidden"}`}>{ pokemonTypeB ? capitalizeFirstLetter(pokemonTypeB) : "" }</button>
+              <button className={`font-semibold h-8 bg-red-400 text-gray-100 pl-2 pr-2 lg:pl-6 lg:pr-6 rounded-[4px] ${pokemonTypeB ? "" : "hidden"}`}>{ pokemonTypeB ? capitalizeFirstLetter(pokemonTypeB) : "" }</button>
             </div>
           </div>
         </li>
