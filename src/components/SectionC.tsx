@@ -32,11 +32,11 @@ export default function SectionC() {
         <h2
           className="
             absolute 1201:hidden
-            -ml-[850px] transform
+            -ml-[800px] transform
             skew-y-angled font-black
             text-2xl mt-16 text-brand-0
           ">
-            Nº de Pokémon por tipo:
+            Total de Pokémon por TIPO:
         </h2>
         <div
           className="
