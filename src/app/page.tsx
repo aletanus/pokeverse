@@ -28,7 +28,7 @@ export default function Home() {
         />
       </div>
 
-      <h2 className="absolute top-[1460px] 600:top-[1480px] 800:top-[1490px] 950:top-[1500px] 1200:hidden pl-5 transform skew-y-angled font-black text-2xl mt-16 text-brand-0">Nº de Pokémon por tipo:</h2>
+      <h2 className="absolute top-[1460px] 600:top-[1480px] 800:top-[1490px] 950:top-[1500px] 1200:hidden pl-5 transform skew-y-angled font-black text-2xl mt-16 text-brand-0">Total de Pokémon por TIPO:</h2>
 
       <SectionC/>
       <SectionB/>
