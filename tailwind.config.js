@@ -29,6 +29,9 @@ module.exports = {
         370: {
           min: "370px",
         },
+        390: {
+          min: "390px",
+        },
         405: {
           min: "405px",
         },

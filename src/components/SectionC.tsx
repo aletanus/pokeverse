@@ -40,14 +40,13 @@ export default function SectionC() {
         </h2>
         <div
           className="
-            flex flex-col w-[90%]
-            mt-32 320:h-[190px]
-            321:h-[190px] 370:h-[235px]
-            405:h-[270px] 450:h-[310px]
-            480:h-[335px] 520:h-[370px]
-            560:h-[410px] 600:h-[460px]
-            700:h-[520px] 750:h-[580px]
-            800:h-[630px]"
+            flex flex-col w-[90%] mt-32
+            320:h-[220px] 321:h-[220px]
+            370:h-[265px] 390:h-[285px]
+            450:h-[310px] 480:h-[335px]
+            520:h-[370px] 560:h-[410px]
+            600:h-[460px] 700:h-[520px]
+            750:h-[580px] 800:h-[630px]"
         >
           <MyResponsivePie/>
         </div>
