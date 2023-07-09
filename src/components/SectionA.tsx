@@ -35,7 +35,7 @@ export default function SectionA() {
                 const starSection = document.getElementById("starSection");
                 if (starSection) {
                   const offsetTop = starSection.offsetTop;
-                  scroll.scrollTo(offsetTop - 220, {
+                  scroll.scrollTo(offsetTop + 10, {
                     smooth: true,
                     duration: 500,
                     top: 100,
