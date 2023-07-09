@@ -1,13 +1,13 @@
 "use client";
-import Button from "@/components/Button";
+// import Button from "@/components/Button";
 import CardsContainer from "./CardsContainer";
 import SearchForm from "./SearchForm";
 
 export default function SectionB() {
 
-  function getAllPokemon() {
-    // console.log("Chamar todos Pokémon");
-  }
+  // function getAllPokemon() {
+  //   // console.log("Chamar todos Pokémon");
+  // }
 
   return (
     <section id="starSection" className=" flex justify-center bg-top bg-no-repeat w-full bg-brand-0">
