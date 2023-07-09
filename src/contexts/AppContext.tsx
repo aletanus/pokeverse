@@ -12,6 +12,7 @@ export function AppProvider({ children, }: Props) {
 
   useEffect(() => {
     getAllPokemonNames();
+    getPokemonByNameOrId("bulbasaur");
   }, []);
 
   async function getAllPokemonNames(url = "https://pokeapi.co/api/v2/pokemon/", pokemonNames: string[] = []) {
@@ -30,19 +31,18 @@ export function AppProvider({ children, }: Props) {
       });
     return pokemonNames;
   }
-  // console.log(pokemonNames);
 
   async function getPokemonByNameOrId(pokemon: string) {
     axios.get<ApiPokemonData>(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
       .then((response) => {
         const pokemonSelected = response.data;
-        const filteredData = {
+        const pokemonData = {
           name: pokemonSelected.name,
           id: pokemonSelected.id,
           types: pokemonSelected.types,
           "official-artwork": pokemonSelected.sprites.other["official-artwork"].front_default,
         };
-        setPokemonData(filteredData);
+        setPokemonData(pokemonData);
       })
       .catch((error) => {
         setPokemonData(null);
