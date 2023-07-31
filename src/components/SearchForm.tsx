@@ -4,50 +4,58 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { searchSchema } from "../schema/search.schema";
 import { useApp } from "@/contexts/AppContext";
-import { SearchPokemon } from "@/contexts/interfaces";
+import { PokemonData, SearchManyPokemon } from "@/contexts/interfaces";
 import { FiSearch } from "react-icons/fi";
+import { useEffect } from "react";
 
 export default function SearchForm() {
 
-  const { pokemonNames, getPokemonByNameOrId, } = useApp();
-  const { register, handleSubmit, formState: { errors, }, } = useForm<SearchPokemon>({
+  const { allPokemonBasicData, setPokemonData, getACompletePokeDataByNameOrId, } = useApp();
+  const { handleSubmit, watch, control, } = useForm<SearchManyPokemon>({
+    mode: "onSubmit",
     resolver: zodResolver(searchSchema),
   });
 
-  const submitForm = async (data: SearchPokemon) => {
-    await getPokemonByNameOrId(data.search.toLocaleLowerCase());
+  const searchWatch = watch("search");
+
+  const submitForm = async (data: SearchManyPokemon) => {
+    const finalData = data.search.map((field) => (field.value.toLowerCase()));
+    setPokemonData(null);
+    const allSearchedData: PokemonData[] = [];
+    for (const value of finalData) {
+      const searchedData = await getACompletePokeDataByNameOrId(value);
+      if (searchedData !== null) {
+        allSearchedData.push(searchedData);
+      }
+    }
+    setPokemonData(allSearchedData);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleSubmit(submitForm)();
-    }
-  };
+  useEffect(() => {
+    //console.log(searchWatch);
+  }, [searchWatch]);
+
+  const sortPokeById = [...allPokemonBasicData].sort((a, b) => a.id - b.id);
+  const firstPokeData = sortPokeById.map(pokemon => ({
+    value: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
+    label: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1) + ` - Nº ${pokemon.id}`,
+  }));
 
   return (
     <form
       onSubmit={handleSubmit(submitForm)}
-      onKeyDown={handleKeyDown}
       className="flex h-[48px] w-[100%] justify-between mr-1"
     >
 
       <Input
-        type="select"
+        type="select-searchable"
+        placeholder="POKÉMON"
         name="search"
+        options={firstPokeData}
         label=""
-        placeholder="Digitar Marca"
-        register={register("search")}
-        errors={errors.search}
-      >
-        <option value="">POKÉMON</option>
-        {pokemonNames.map((search) => (
-          <option key={search} className="capitalize" value={search}>
-            {search}
-          </option>
-        ))}
-      </Input>
-
+        control={control}
+        id="selectSearchableId"
+      />
 
       <Button type="submit" style="search" details="" size="medium">
         <FiSearch />
