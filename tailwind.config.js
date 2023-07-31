@@ -210,14 +210,23 @@ module.exports = {
           transform: "scale(1.04)",
         },
       },
+      "fade-out-animation": {
+        "0%": {
+          opacity: 1,
+        },
+        "100%": {
+          opacity: 0,
+        },
+      },
     },
     animation: {
       "poke-ball": "poke-ball-animation 3s ease forwards",
-      pikachu: "pikachu-animation 3.5s ease-out  forwards",
+      pikachu: "pikachu-animation 3.5s ease-out forwards",
       change: "change-background 6.8s ease-out forwards",
       pulse: "pulse-animation 1.5s infinite ease-in-out",
       pulseCard: "pulse-card-animation 2.5s infinite ease-in-out",
       pausedCard: "paused-card-animation infinite ease-in-out",
+      fadeout: "fade-out-animation 3.5s forwards",
     },
   },
   plugins: [require("tailwind-scrollbar")],

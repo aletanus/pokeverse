@@ -1,90 +1,104 @@
-import React, { forwardRef, Ref, SelectHTMLAttributes, useState } from "react";
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import Select, { ActionMeta, Props as SelectProps } from "react-select";
+import styles from "../styles/select.module.css";
+import { FieldError, UseFormRegisterReturn, Merge, FieldErrorsImpl, Controller } from "react-hook-form";
 
-type InputType = "text" | "textarea" | "select" | "autocomplete";
+export type InputType = "text" | "search" | "textarea" | "select" | "select-searchable";
+export type ActionTypes = | "clear" | "create-option" | "deselect-option" | "pop-value" | "remove-value" | "select-option" | "set-value"
 
-type InputProps = {
-  id?: string;
+export type InputProps = {
   type?: InputType;
   name: string;
-  label: string;
+  label?: string;
+  value?: string | OptionsType;
   placeholder?: string;
   register?: UseFormRegisterReturn;
+  id?: string;
   children?: React.ReactNode;
-  errors?: FieldError;
+  selectProps?: SelectProps;
+  actionTypes?: ActionTypes;
   disabled?: boolean;
-  options?: string[];
+  options?: string[] | OptionsType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errors?: Merge<FieldError, (Merge<FieldError, FieldErrorsImpl<{ [x: string]: any; }>> | undefined)[]> | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange?: ((newValue: any, actionMeta: ActionMeta<any>) => void) | undefined
+}
+
+export type OptionType = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 };
 
-const Input = forwardRef<HTMLSelectElement, InputProps>(({ id, type, name, label, placeholder, register, children, errors, disabled, options, ...rest }: InputProps, ref) => {
+export type OptionsType = OptionType[];
 
-  const [isOpen, setIsOpen] = useState(false);
+export default function Input(props: InputProps) {
 
-  const handleSelectClick = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const defaultStyle = "bg-grey-8 w-full px-4 py-2 text-grey-1 rounded-t-none rounded-b-none rounded-tl-[8px] rounded-l-[8px] border-2 border-brand-0 input-placeholder hover:border-brand-0 focus:border-brand-3 resize-none";
-  const selectStyle = "appearance-none pr-7 capitalize";
-  const selectSvgClasses = `h-5 w-5 text-gray-500 mr-2 transition-transform duration-500 ease-in-out ${ isOpen ? "scale-y-[-1]" : "" }`;
-
+  const defaultStyle = "px-4 py-2 text-grey-1 rounded-[4px] border-2 border-grey-7 input-placeholder hover:border-grey-8 focus:border-brand-1 resize-none";
   let inputElement: React.ReactNode;
 
-  switch (type) {
-  case "text":
-    inputElement = (<input disabled={disabled} name={name} id={id || name} className={defaultStyle} placeholder={placeholder || label} {...register}/>);
+  switch (props.type) {
+
+  default:
+    inputElement = <input disabled={props.disabled} type={props.type} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;
+
   case "textarea":
-    inputElement = (<textarea disabled={disabled} name={name} id={id || name} className={defaultStyle} placeholder={placeholder || label} {...register}/>);
+    inputElement = <textarea disabled={props.disabled} name={props.name} id={props.name} className={defaultStyle} placeholder={props.placeholder ?? props.label} {...props.register} />;
     break;
+
   case "select":
     inputElement = (
-      <div className="relative w-full">
-        <select
-          ref={ref}
-          disabled={disabled}
-          name={name}
-          id={id || name}
-          className={`${defaultStyle} ${selectStyle} h-full  border-2 border-brand-0 input-placeholder hover:border-brand-0 hover:border-2 focus:border-2 focus:border-brand-3`}
-          placeholder={placeholder || label}
-          onClick={handleSelectClick}
-          {...register}
-          {...rest as SelectHTMLAttributes<HTMLSelectElement>}
-        >
-          {children}
-        </select>
-        <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
-          <svg className={selectSvgClasses} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      </div>
+      <select value={props.value as string} disabled={props.disabled} name={props.name} id={props.name} className={`${defaultStyle} capitalize`} placeholder={props.placeholder ?? props.label} {...props.register}>
+        {props.children}
+      </select>
     );
     break;
-  case "autocomplete":
+
+  case "select-searchable":
     inputElement = (
-      <>
-        <input ref={ref as Ref<HTMLInputElement>} type="text" name={name} id={id || name} className={defaultStyle} placeholder={placeholder || label} autoComplete="off" list={`${name}-datalist`} {...register}/>
-        {options && (<datalist id={`${name}-datalist`}>{options.map((option) => (<option key={option} value={option} />))}</datalist>)}
-      </>
+      <Controller
+        name={props.name}
+        control={props.control}
+        render={({ field, fieldState, }) => (
+          <div className={styles.container}>
+            <Select
+              {...field}
+              key={props.name}
+              className={styles.firstElement}
+              isMulti
+              {...props.selectProps}
+              placeholder={props.placeholder}
+              id={props.id}
+              name={props.name}
+              isClearable={props.selectProps?.isClearable}
+              isDisabled={props.selectProps?.isDisabled}
+              classNamePrefix={props.selectProps?.classNamePrefix}
+              options={props.options}
+              noOptionsMessage={props.selectProps?.noOptionsMessage}
+              value={field.value}
+              onChange={(value) => field.onChange(value)}
+            />
+            { !field.value && fieldState.error && fieldState.error.message && (
+              <span id={props.id} className="text-red-500 text-sm">{fieldState.error.message}</span>
+            )}
+          </div>
+        )}
+      />
     );
-    break;
-  default:
-    inputElement = (<input disabled={disabled} type={type} name={name} id={id || name} className={defaultStyle} placeholder={placeholder || label} {...register} ref={ref as Ref<HTMLInputElement>}/>);
     break;
   }
 
   return (
-    <fieldset className="flex h-full w-full">
-      <label htmlFor={name} className="input-label">
-        {label}
+    <fieldset className="flex flex-col w-full h-full">
+      <label htmlFor={props.name} className="input-label">
+        {props.label}
       </label>
       {inputElement}
-      {errors && (
-        <span className="text-red-500 text-sm">{errors.message}</span>
+      { props.errors && (
+        <span className="text-red-500 text-sm">{props.errors.message}</span>
       )}
     </fieldset>
   );
-});
-
-export default Input;
+}
