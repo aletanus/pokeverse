@@ -1,0 +1,13 @@
+.container {
+   z-index: 30;
+   height: 100%;
+   border: solid 2px rgb(114 107 142);
+   background-color: rgb(255, 255, 255);
+   border-radius: 8px 0px 0px 8px;
+}
+
+.firstElement {
+   height: 100%;
+   width: 100%;
+   border:solid transparent 3px;
+}

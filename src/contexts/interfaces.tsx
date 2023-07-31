@@ -1,15 +1,23 @@
+import { OptionType } from "@/components/Input";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface AppContextData {
-  pokemonNames: string[]
-  setPokemonNames: Dispatch<SetStateAction<string[]>>
-  getAllPokemonNames(url?: string): Promise<string[]>
-  pokemonData: PokemonData | null
-  setPokemonData: Dispatch<SetStateAction<PokemonData | null>>
-  getPokemonByNameOrId(pokemon: string): Promise<void>
-  getPokemonByType(type: string): void
-  filteredPokemons: PokemonData[]
-  setFilteredPokemons: Dispatch<SetStateAction<PokemonData[]>>
+
+  loading: boolean
+  setLoading: Dispatch<SetStateAction<boolean>>
+
+  pokemonData: PokemonData[] | null
+  setPokemonData: Dispatch<SetStateAction<PokemonData[] | null>>
+
+  getACompletePokeDataByNameOrId(pokemon: string | number): Promise<PokemonData | null>
+  groupPokemonByType(type: string): void
+  paginatedPokeCompleteData: PokemonData[]
+  setpaginatedPokeCompleteData: Dispatch<SetStateAction<PokemonData[]>>
+
+  allPokemonBasicData: PokemonBasicData[]
+  setAllPokemonBasicData: Dispatch<SetStateAction<PokemonBasicData[]>>
+
+  getManyPokeCompleteDataByInterval(pokemonBasicData: PokemonBasicData[]): Promise<void>
 }
 
 export interface Props {
@@ -125,7 +133,7 @@ export interface PokemonData {
             url: string;
         };
     }[];
-    "official-artwork": string;
+    "official-artwork"?: string;
 }
 
 export interface ApiPokemonTypeList {
@@ -141,7 +149,11 @@ export interface ApiPokemonTypeResult {
 }
 
 export interface SearchPokemon {
-  search: string;
+  search: string | null;
+}
+
+export interface SearchManyPokemon {
+  search: OptionType[]
 }
 
 export interface ApiPokemonTypeDetails {
@@ -209,4 +221,9 @@ interface PokemonEntry {
 export interface Pokemon {
   name: string;
   url: string;
+}
+
+export interface PokemonBasicData {
+  name: string;
+  id: number;
 }

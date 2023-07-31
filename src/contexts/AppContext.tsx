@@ -1,56 +1,74 @@
 "use client";
-import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { ApiPokemonData, ApiPokemonTypeDetails, ApiPokemonTypeList, AppContextData, Pokemon, PokemonApiResponse, PokemonData, Props } from "./interfaces";
+import { ApiPokemonData, ApiPokemonTypeDetails, ApiPokemonTypeList, AppContextData, Pokemon, PokemonApiResponse, PokemonBasicData, PokemonData, Props } from "./interfaces";
+import axios from "axios";
 
 const AppContext = createContext({} as AppContextData);
 
 export function AppProvider({ children, }: Props) {
-  const [pokemonNames, setPokemonNames] = useState<string[]>([]);
-  const [pokemonData, setPokemonData] = useState<PokemonData | null>(null);
-  const [filteredPokemons, setFilteredPokemons] = useState<PokemonData[]>([]);
+
+  const [allPokemonBasicData, setAllPokemonBasicData] = useState<PokemonBasicData[]>([]);
+  const [pokemonData, setPokemonData] = useState<PokemonData[] | null>(null);
+  const [paginatedPokeCompleteData, setpaginatedPokeCompleteData] = useState<PokemonData[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getAllPokemonNames();
-    getPokemonByNameOrId("bulbasaur");
+    async function getAllPokemonBasicData(url = "https://pokeapi.co/api/v2/pokemon/?limit=1000"): Promise<PokemonBasicData[]> {
+      let allPokemonData: PokemonBasicData[] = [];
+      while (url) {
+        const response = await axios.get<PokemonApiResponse>(url);
+        const results = response.data.results;
+        const newData: PokemonBasicData[] = results.map((pokemon: Pokemon) => {
+          const urlParts = pokemon.url.split("/");
+          const pokemonId = parseInt(urlParts[urlParts.length - 2]);
+          return { name: pokemon.name, id: pokemonId, };
+        });
+        allPokemonData = [...allPokemonData, ...newData];
+        // console.log(1);
+        url = response.data.next || "";
+        // console.log(2);
+      }
+      setAllPokemonBasicData(allPokemonData);
+      return allPokemonBasicData;
+    }
+    getAllPokemonBasicData();
   }, []);
 
-  async function getAllPokemonNames(url = "https://pokeapi.co/api/v2/pokemon/", pokemonNames: string[] = []) {
-    await axios.get<PokemonApiResponse>(`${url}?limit=1000`)
-      .then((response) => {
-        const results = response.data.results;
-        const newPokemonNames = results.map((pokemon: Pokemon) => pokemon.name);
-        setPokemonNames(prevPokemonNames => [...prevPokemonNames, ...newPokemonNames].sort());
-        const nextUrl = response.data.next;
-        if (nextUrl) {
-          return getAllPokemonNames(nextUrl);
-        }
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
-    return pokemonNames;
+  async function getACompletePokeDataByNameOrId(pokemon: string | number) {
+    try {
+      const response = await axios.get<ApiPokemonData>(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+      const pokemonSelected = response.data;
+      const pokeData: PokemonData = {
+        name: pokemonSelected.name,
+        id: pokemonSelected.id,
+        types: pokemonSelected.types,
+        "official-artwork": pokemonSelected.sprites.other["official-artwork"].front_default,
+      };
+      return pokeData;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.data);
+      } else {
+        console.log(error);
+      }
+      return null;
+    }
   }
 
-  async function getPokemonByNameOrId(pokemon: string) {
-    axios.get<ApiPokemonData>(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-      .then((response) => {
-        const pokemonSelected = response.data;
-        const pokemonData = {
-          name: pokemonSelected.name,
-          id: pokemonSelected.id,
-          types: pokemonSelected.types,
-          "official-artwork": pokemonSelected.sprites.other["official-artwork"].front_default,
-        };
-        setPokemonData(pokemonData);
-      })
-      .catch((error) => {
-        setPokemonData(null);
-        console.log(error.response.data);
-      });
+  async function getManyPokeCompleteDataByInterval(pokeBasicData: PokemonBasicData[]) {
+
+    try {
+      setLoading(true);
+      const pokemonDataPromises = pokeBasicData.map((data) => getACompletePokeDataByNameOrId(data.name));
+      const pokemonData = await Promise.all(pokemonDataPromises) as unknown as PokemonData[];
+      setpaginatedPokeCompleteData([...paginatedPokeCompleteData, ...pokemonData]);
+      setLoading(false);
+    } catch (error) {
+      console.log("Error fetching Pokémon data:", error);
+    }
   }
 
-  async function getPokemonByType(type: string) {
+  async function groupPokemonByType(type: string) {
     try {
       const allTypesResponse = await axios.get<ApiPokemonTypeList>("https://pokeapi.co/api/v2/type/");
       const allPokemonTypes = allTypesResponse.data.results;
@@ -73,7 +91,7 @@ export function AppProvider({ children, }: Props) {
         };
         filteredPokemonsData.push(filteredData);
       }
-      setFilteredPokemons(filteredPokemonsData);
+      setpaginatedPokeCompleteData(filteredPokemonsData);
     } catch (error) {
       console.log("Error fetching Pokémon data:", error);
     }
@@ -82,14 +100,13 @@ export function AppProvider({ children, }: Props) {
   return (
     <AppContext.Provider
       value={{
-        getAllPokemonNames,
-        pokemonNames,
-        setPokemonNames,
-        pokemonData,
-        setPokemonData,
-        getPokemonByNameOrId,
-        getPokemonByType,
-        filteredPokemons, setFilteredPokemons,
+        loading, setLoading,
+        allPokemonBasicData, setAllPokemonBasicData,
+        pokemonData, setPokemonData,
+        paginatedPokeCompleteData, setpaginatedPokeCompleteData,
+        getACompletePokeDataByNameOrId,
+        getManyPokeCompleteDataByInterval,
+        groupPokemonByType,
       }}
     >
       {children}
