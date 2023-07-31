@@ -1,4 +1,3 @@
-"use client";
 import "./globals.css";
 import { Inter, Lexend } from "next/font/google";
 import AnimationComponent from "../components/Animation";
